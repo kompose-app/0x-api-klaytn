@@ -1,5 +1,5 @@
-import { ERC20BridgeSource, SwapQuoterError } from '@0x/asset-swapper';
-import { BigNumber, NULL_ADDRESS } from '@0x/utils';
+import { ERC20BridgeSource, SwapQuoterError } from '@0x-klaytn/asset-swapper';
+import { BigNumber, NULL_ADDRESS } from '@0x-klaytn/utils';
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
 
@@ -13,17 +13,22 @@ import { SwapService } from '../services/swap_service';
 import { TokenMetadatasForChains } from '../token_metadatas_for_networks';
 import { ChainId, GetSwapQuoteRequestParams } from '../types';
 import { schemaUtils } from '../utils/schema_utils';
-import { findTokenAddress, getTokenMetadataIfExists, isETHSymbol } from '../utils/token_metadata_utils';
+import { findTokenAddress, getTokenMetadataIfExists, isKLAYSymbol } from '../utils/token_metadata_utils';
+
+interface IError {
+    message: string;
+}
 
 export class SwapHandlers {
     private readonly _swapService: SwapService;
     public static rootAsync(_req: express.Request, res: express.Response): void {
-        const message = `This is the root of the Swap API. Visit ${SWAP_DOCS_URL} for details about this API.`;
+        const message = `This is the root of the Swap API for Klaytn. Visit ${SWAP_DOCS_URL} for details about this API.`;
         res.status(HttpStatus.OK).send({ message });
     }
     constructor(swapService: SwapService) {
         this._swapService = swapService;
     }
+
     public async getSwapQuoteAsync(req: express.Request, res: express.Response): Promise<void> {
         // parse query params
         const {
@@ -37,7 +42,7 @@ export class SwapHandlers {
             excludedSources,
             affiliateAddress,
         } = parseGetSwapQuoteRequestParams(req);
-        const isETHSell = isETHSymbol(sellToken);
+        const isKLAYSell = isKLAYSymbol(sellToken);
         const sellTokenAddress = findTokenAddressOrThrowApiError(sellToken, 'sellToken', CHAIN_ID);
         const buyTokenAddress = findTokenAddressOrThrowApiError(buyToken, 'buyToken', CHAIN_ID);
         if (sellTokenAddress === buyTokenAddress) {
@@ -58,7 +63,7 @@ export class SwapHandlers {
                 buyAmount,
                 sellAmount,
                 from: takerAddress,
-                isETHSell,
+                isKLAYSell,
                 slippagePercentage,
                 gasPrice,
                 excludedSources,
@@ -74,7 +79,8 @@ export class SwapHandlers {
             if (isRevertError(e)) {
                 throw new RevertAPIError(e);
             }
-            const errorMessage: string = e.message;
+            const msgError: IError = (e as IError)
+            const errorMessage: string = msgError.message;
             // TODO AssetSwapper can throw raw Errors or InsufficientAssetLiquidityError
             if (
                 errorMessage.startsWith(SwapQuoterError.InsufficientAssetLiquidity) ||
@@ -93,12 +99,12 @@ export class SwapHandlers {
                     {
                         field: 'token',
                         code: ValidationErrorCodes.ValueOutOfRange,
-                        reason: e.message,
+                        reason: msgError.message,
                     },
                 ]);
             }
             logger.info('Uncaught error', e);
-            throw new InternalServerError(e.message);
+            throw new InternalServerError(msgError.message);
         }
     }
     // tslint:disable-next-line:prefer-function-over-method
@@ -114,7 +120,7 @@ export class SwapHandlers {
     }
     // tslint:disable-next-line:prefer-function-over-method
     public async getTokenPricesAsync(req: express.Request, res: express.Response): Promise<void> {
-        const symbolOrAddress = req.query.sellToken || 'WETH';
+        const symbolOrAddress = req.query.sellToken || 'WKLAY';
         const baseAsset = getTokenMetadataIfExists(symbolOrAddress, CHAIN_ID);
         if (!baseAsset) {
             throw new ValidationError([

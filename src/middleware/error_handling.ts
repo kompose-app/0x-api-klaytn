@@ -1,4 +1,4 @@
-import { RevertError } from '@0x/utils';
+import { RevertError } from '@0x-klaytn/utils';
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
 

@@ -8,10 +8,10 @@ import {
     SwapQuoteConsumer,
     SwapQuoteOrdersBreakdown,
     SwapQuoter,
-} from '@0x/asset-swapper';
-import { assetDataUtils, SupportedProvider } from '@0x/order-utils';
-import { AbiEncoder, BigNumber, decodeThrownErrorAsRevertError, RevertError } from '@0x/utils';
-import { TxData, Web3Wrapper } from '@0x/web3-wrapper';
+} from '@0x-klaytn/asset-swapper';
+import { assetDataUtils, SupportedProvider } from '@0x-klaytn/order-utils';
+import { AbiEncoder, BigNumber, decodeThrownErrorAsRevertError, RevertError } from '@0x-klaytn/utils';
+import { TxData, Web3Wrapper } from '@0x-klaytn/web3-wrapper';
 import * as _ from 'lodash';
 
 import { ASSET_SWAPPER_MARKET_ORDERS_OPTS, CHAIN_ID, FEE_RECIPIENT_ADDRESS } from '../config';
@@ -57,7 +57,7 @@ export class SwapService {
             sellTokenAddress,
             slippagePercentage,
             gasPrice: providedGasPrice,
-            isETHSell,
+            isKLAYSell,
             from,
             excludedSources,
             affiliateAddress,
@@ -93,8 +93,8 @@ export class SwapService {
         } = attributedSwapQuote.bestCaseQuoteInfo;
         const { orders, gasPrice, sourceBreakdown } = attributedSwapQuote;
 
-        // If ETH was specified as the token to sell then we use the Forwarder
-        const extensionContractType = isETHSell ? ExtensionContractType.Forwarder : ExtensionContractType.None;
+        // If KLAY was specified as the token to sell then we use the Forwarder
+        const extensionContractType = isKLAYSell ? ExtensionContractType.Forwarder : ExtensionContractType.None;
         const {
             calldataHexString: data,
             ethAmount: value,
@@ -107,7 +107,7 @@ export class SwapService {
 
         let gas;
         if (from) {
-            // Force a revert error if the takerAddress does not have enough ETH.
+            // Force a revert error if the takerAddress does not have enough KLAY.
             const txDataValue =
                 extensionContractType === ExtensionContractType.Forwarder
                     ? BigNumber.min(value, await this._web3Wrapper.getBalanceInWeiAsync(from))
@@ -222,7 +222,7 @@ export class SwapService {
         // Perform this concurrently
         // if the call fails the gas estimation will also fail, we can throw a more helpful
         // error message than gas estimation failure
-        const estimateGasPromise = this._web3Wrapper.estimateGasAsync(txData).catch(_e => 0);
+        const estimateGasPromise = this._web3Wrapper.estimateGasAsync(txData).catch((_e: any) => 0);
         await this._throwIfCallIsRevertErrorAsync(txData);
         const gas = await estimateGasPromise;
         return new BigNumber(gas);
@@ -297,7 +297,7 @@ export class SwapService {
         // HACK(dekz): Our ERC20Wrapper does not have decimals as it is optional
         // so we must encode this ourselves
         let decimals = findTokenDecimalsIfExists(tokenAddress, CHAIN_ID);
-        if (!decimals) {
+        if (!decimals || decimals < 0) {
             const decimalsEncoder = new AbiEncoder.Method({
                 constant: true,
                 inputs: [],
@@ -326,7 +326,6 @@ export class SwapService {
             callResult = await this._web3Wrapper.callAsync(txData);
         } catch (e) {
             // RPCSubprovider can throw if .error exists on the response payload
-            // This `error` response occurs from Parity nodes (incl Alchemy) but not on INFURA (geth)
             revertError = decodeThrownErrorAsRevertError(e);
             throw revertError;
         }

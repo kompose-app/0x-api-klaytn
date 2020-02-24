@@ -1,4 +1,4 @@
-import { Schema, SchemaValidator } from '@0x/json-schemas';
+import { Schema, SchemaValidator } from '@0x-klaytn/json-schemas';
 import { ValidationError as SchemaValidationError } from 'jsonschema';
 
 import { ValidationError, ValidationErrorCodes, ValidationErrorItem } from '../errors';

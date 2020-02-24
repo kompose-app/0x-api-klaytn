@@ -1,7 +1,7 @@
 // tslint:disable:custom-no-magic-numbers
-import { assert } from '@0x/assert';
-import { ERC20BridgeSource, SwapQuoteRequestOpts } from '@0x/asset-swapper';
-import { BigNumber } from '@0x/utils';
+import { assert } from '@0x-klaytn/assert';
+import { SwapQuoteRequestOpts } from '@0x-klaytn/asset-swapper';
+import { BigNumber } from '@0x-klaytn/utils';
 import * as _ from 'lodash';
 
 import { DEFAULT_LOCAL_POSTGRES_URI, DEFAULT_LOGGER_INCLUDE_TIMESTAMP, NULL_ADDRESS, NULL_BYTES } from './constants';
@@ -25,7 +25,7 @@ export const HTTP_PORT = _.isEmpty(process.env.HTTP_PORT)
     : assertEnvVarType('HTTP_PORT', process.env.HTTP_PORT, EnvVarType.Port);
 // Default chain id to use when not specified
 export const CHAIN_ID: ChainId = _.isEmpty(process.env.CHAIN_ID)
-    ? ChainId.Kovan
+    ? ChainId.Cypress
     : assertEnvVarType('CHAIN_ID', process.env.CHAIN_ID, EnvVarType.ChainId);
 
 // Whitelisted token addresses. Set to a '*' instead of an array to allow all tokens.
@@ -33,8 +33,8 @@ export const WHITELISTED_TOKENS: string[] | '*' = _.isEmpty(process.env.WHITELIS
     ? TokenMetadatasForChains.map(tm => tm.tokenAddresses[CHAIN_ID])
     : assertEnvVarType('WHITELIST_ALL_TOKENS', process.env.WHITELIST_ALL_TOKENS, EnvVarType.WhitelistAllTokens);
 
-// Ethereum RPC Url
-export const ETHEREUM_RPC_URL = assertEnvVarType('ETHEREUM_RPC_URL', process.env.ETHEREUM_RPC_URL, EnvVarType.Url);
+// Klaytn RPC Url
+export const KLAYTN_RPC_URL = assertEnvVarType('KLAYTN_RPC_URL', process.env.KLAYTN_RPC_URL, EnvVarType.Url);
 
 // Mesh Endpoint
 export const MESH_WEBSOCKET_URI = _.isEmpty(process.env.MESH_WEBSOCKET_URI)
@@ -76,12 +76,12 @@ export const DEFAULT_ERC20_TOKEN_PRECISION = 18;
 
 const EXCLUDED_SOURCES = (() => {
     switch (CHAIN_ID) {
-        case ChainId.Mainnet:
+        case ChainId.Cypress:
             return [];
-        case ChainId.Kovan:
-            return [ERC20BridgeSource.Kyber];
+        case ChainId.Baobab:
+            return [];
         default:
-            return [ERC20BridgeSource.Eth2Dai, ERC20BridgeSource.Kyber, ERC20BridgeSource.Uniswap];
+            return [];
     }
 })();
 

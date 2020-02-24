@@ -1,4 +1,4 @@
-import { SignedOrder } from '@0x/asset-swapper';
+import { SignedOrder } from '@0x-klaytn/asset-swapper';
 import {
     AcceptedOrderInfo,
     OrderEvent,

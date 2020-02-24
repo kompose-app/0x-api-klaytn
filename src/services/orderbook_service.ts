@@ -1,6 +1,6 @@
 import { APIOrder, OrderbookResponse, PaginatedCollection } from '@0x/connect';
 import { WSClient } from '@0x/mesh-rpc-client';
-import { assetDataUtils } from '@0x/order-utils';
+import { assetDataUtils } from '@0x-klaytn/order-utils';
 import { AssetPairsItem, OrdersRequestOpts, SignedOrder } from '@0x/types';
 import * as _ from 'lodash';
 import { Connection, In } from 'typeorm';

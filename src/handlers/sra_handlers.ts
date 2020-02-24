@@ -1,6 +1,6 @@
-import { schemas } from '@0x/json-schemas';
-import { assetDataUtils, SignedOrder } from '@0x/order-utils';
-import { BigNumber } from '@0x/utils';
+import { schemas } from '@0x-klaytn/json-schemas';
+import { assetDataUtils, SignedOrder } from '@0x-klaytn/order-utils';
+import { BigNumber } from '@0x-klaytn/utils';
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
 
@@ -16,7 +16,7 @@ import { schemaUtils } from '../utils/schema_utils';
 export class SRAHandlers {
     private readonly _orderBook: OrderBookService;
     public static rootAsync(_req: express.Request, res: express.Response): void {
-        const message = `This is the root of the Standard Relayer API. Visit ${SRA_DOCS_URL} for details about this API.`;
+        const message = `This is the root of the Standard Relayer API for Klaytn. Visit ${SRA_DOCS_URL} for details about this API.`;
         res.status(HttpStatus.OK).send({ message });
     }
     public static feeRecipients(req: express.Request, res: express.Response): void {

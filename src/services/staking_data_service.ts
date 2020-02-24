@@ -126,7 +126,7 @@ export class StakingDataService {
 
         return {
             ...pool,
-            sevenDayProtocolFeesGeneratedInEth: pool7dProtocolFeesGenerated.sevenDayProtocolFeesGeneratedInEth,
+            sevenDayProtocolFeesGeneratedInKlay: pool7dProtocolFeesGenerated.sevenDayProtocolFeesGeneratedInKlay,
             currentEpochStats: currentEpochPoolStats,
             nextEpochStats: nextEpochPoolStats,
         };
@@ -154,8 +154,8 @@ export class StakingDataService {
         const poolProtocolFeesGeneratedMap = utils.arrayToMapWithId(poolProtocolFeesGenerated, 'poolId');
         return pools.map(pool => ({
             ...pool,
-            sevenDayProtocolFeesGeneratedInEth:
-                poolProtocolFeesGeneratedMap[pool.poolId].sevenDayProtocolFeesGeneratedInEth,
+            sevenDayProtocolFeesGeneratedInKlay:
+                poolProtocolFeesGeneratedMap[pool.poolId].sevenDayProtocolFeesGeneratedInKlay,
             currentEpochStats: currentEpochPoolStatsMap[pool.poolId],
             nextEpochStats: nextEpochPoolStatsMap[pool.poolId],
         }));

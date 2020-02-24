@@ -9,13 +9,13 @@ import { providerUtils } from '../utils/provider_utils';
 
 if (require.main === module) {
     (async () => {
-        const provider = providerUtils.createWeb3Provider(defaultConfig.ETHEREUM_RPC_URL);
+        const provider = providerUtils.createWeb3Provider(defaultConfig.KLAYTN_RPC_URL);
         const { connection, meshClient } = await getDefaultAppDependenciesAsync(provider, defaultConfig);
 
         if (meshClient) {
             await runOrderWatcherServiceAsync(connection, meshClient);
 
-            logger.info(`Order Watching Service started!\nConfig: ${JSON.stringify(defaultConfig, null, 2)}`);
+            logger.info(`Order Watching Service for Klaytn started!\nConfig: ${JSON.stringify(defaultConfig, null, 2)}`);
         } else {
             logger.error(
                 `Order Watching Service could not be started! Could not start mesh client!\nConfig: ${JSON.stringify(

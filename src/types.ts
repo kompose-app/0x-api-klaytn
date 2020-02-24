@@ -1,7 +1,7 @@
-import { ERC20BridgeSource } from '@0x/asset-swapper';
+import { ERC20BridgeSource } from '@0x-klaytn/asset-swapper';
 import { AcceptedOrderInfo, RejectedOrderInfo } from '@0x/mesh-rpc-client';
 import { APIOrder, OrdersChannelSubscriptionOpts, SignedOrder, UpdateOrdersChannelMessage } from '@0x/types';
-import { BigNumber } from '@0x/utils';
+import { BigNumber } from '@0x-klaytn/utils';
 
 export enum OrderWatcherLifeCycleEvents {
     Added,
@@ -67,7 +67,7 @@ export interface RawEpoch {
     ending_block_timestamp?: null;
     zrx_deposited?: string;
     zrx_staked?: string;
-    protocol_fees_generated_in_eth?: string;
+    protocol_fees_generated_in_klay?: string;
 }
 
 export interface TransactionDate {
@@ -82,7 +82,7 @@ export interface Epoch {
     epochEnd?: TransactionDate;
     zrxStaked: number;
     zrxDeposited: number;
-    protocolFeesGeneratedInEth: number;
+    protocolFeesGeneratedInKlay: number;
 }
 
 export interface RawPool {
@@ -134,7 +134,7 @@ export interface Pool {
 export interface PoolWithStats extends Pool {
     currentEpochStats: EpochPoolStats;
     nextEpochStats: EpochPoolStats;
-    sevenDayProtocolFeesGeneratedInEth: number;
+    sevenDayProtocolFeesGeneratedInKlay: number;
 }
 
 export interface PoolWithHistoricalStats extends PoolWithStats {
@@ -149,7 +149,7 @@ export interface RawEpochPoolStats {
     zrx_staked?: string;
     total_staked?: string;
     share_of_stake?: string;
-    total_protocol_fees_generated_in_eth?: string;
+    total_protocol_fees_generated_in_klay?: string;
     number_of_fills?: string;
     share_of_fees?: string;
     share_of_fills?: string;
@@ -162,7 +162,7 @@ export interface EpochPoolStats {
     shareOfStake: number;
     operatorShare?: number;
     makerAddresses: string[];
-    totalProtocolFeesGeneratedInEth: number;
+    totalProtocolFeesGeneratedInKlay: number;
     shareOfFees: number;
     numberOfFills: number;
     shareOfFills: number;
@@ -170,9 +170,9 @@ export interface EpochPoolStats {
 }
 
 export interface RewardsStats {
-    operatorRewardsPaidInEth: number;
-    membersRewardsPaidInEth: number;
-    totalRewardsPaidInEth: number;
+    operatorRewardsPaidInKlay: number;
+    membersRewardsPaidInKlay: number;
+    totalRewardsPaidInKlay: number;
 }
 
 export interface PoolEpochRewards extends RewardsStats {
@@ -183,7 +183,7 @@ export interface PoolEpochRewards extends RewardsStats {
 
 export interface RawPoolProtocolFeesGenerated {
     pool_id: string;
-    seven_day_protocol_fees_generated_in_eth: string;
+    seven_day_protocol_fees_generated_in_klay: string;
     seven_day_number_of_fills: string;
 }
 
@@ -195,7 +195,7 @@ export interface RawPoolTotalProtocolFeesGenerated {
 
 export interface PoolProtocolFeesGenerated {
     poolId: string;
-    sevenDayProtocolFeesGeneratedInEth: number;
+    sevenDayProtocolFeesGeneratedInKlay: number;
     sevenDayNumberOfFills: number;
 }
 
@@ -203,7 +203,7 @@ export interface RawAllTimeStakingStats {
     total_rewards_paid: string;
 }
 export interface AllTimeStakingStats {
-    totalRewardsPaidInEth: number;
+    totalRewardsPaidInKlay: number;
 }
 
 export interface StakingPoolResponse {
@@ -250,13 +250,13 @@ export interface EpochDelegatorStats {
 }
 
 export interface AllTimePoolStats extends RewardsStats {
-    protocolFeesGeneratedInEth: number;
+    protocolFeesGeneratedInKlay: number;
     numberOfFills: number;
 }
 
 export interface AllTimeDelegatorPoolStats {
     poolId: string;
-    rewardsInEth: number;
+    rewardsInKlay: number;
 }
 
 export interface AllTimeDelegatorStats {
@@ -282,9 +282,8 @@ export interface ObjectMap<T> {
 }
 
 export enum ChainId {
-    Mainnet = 1,
-    Kovan = 42,
-    Ganache = 1337,
+    Cypress = 8217,
+    Baobab = 1001,
 }
 
 export interface TokenMetadata {
@@ -335,7 +334,7 @@ export interface CalculateSwapQuoteParams {
     buyAmount: BigNumber | undefined;
     sellAmount: BigNumber | undefined;
     from: string | undefined;
-    isETHSell: boolean;
+    isKLAYSell: boolean;
     slippagePercentage?: number;
     gasPrice?: BigNumber;
     excludedSources?: ERC20BridgeSource[];

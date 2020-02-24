@@ -1,4 +1,4 @@
-import { BigNumber } from '@0x/utils';
+import { BigNumber } from '@0x-klaytn/utils';
 
 // tslint:disable:custom-no-magic-numbers
 
@@ -19,7 +19,7 @@ export const TEN_MINUTES_MS = ONE_MINUTE_MS * 10;
 export const QUOTE_ORDER_EXPIRATION_BUFFER_MS = ONE_SECOND_MS * 90; // Ignore orders that expire in 90 seconds
 export const GAS_LIMIT_BUFFER_PERCENTAGE = 0.2; // Add 20% to the estimated gas limit
 export const DEFAULT_QUOTE_SLIPPAGE_PERCENTAGE = 0.2; // 20% Slippage
-export const ETH_SYMBOL = 'ETH';
+export const KLAY_SYMBOL = 'KLAY';
 export const ADDRESS_HEX_LENGTH = 42;
 export const DEFAULT_TOKEN_DECIMALS = 18;
 export const FIRST_PAGE = 1;

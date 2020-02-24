@@ -1,5 +1,5 @@
 import { APIOrder, OrderConfigRequest, OrderConfigResponse } from '@0x/connect';
-import { assetDataUtils } from '@0x/order-utils';
+import { assetDataUtils } from '@0x-klaytn/order-utils';
 import {
     Asset,
     AssetData,
@@ -13,7 +13,7 @@ import {
     SignedOrder,
     StaticCallAssetData,
 } from '@0x/types';
-import { BigNumber, errorUtils } from '@0x/utils';
+import { BigNumber, errorUtils } from '@0x-klaytn/utils';
 
 import {
     CHAIN_ID,

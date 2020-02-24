@@ -1,5 +1,5 @@
 import { ObjectMap } from '@0x/types';
-import { RevertError } from '@0x/utils';
+import { RevertError } from '@0x-klaytn/utils';
 import * as HttpStatus from 'http-status-codes';
 
 // tslint:disable:max-classes-per-file

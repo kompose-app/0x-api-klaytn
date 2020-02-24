@@ -5,7 +5,7 @@ import { providerUtils } from './utils/provider_utils';
 
 if (require.main === module) {
     (async () => {
-        const provider = providerUtils.createWeb3Provider(config.ETHEREUM_RPC_URL);
+        const provider = providerUtils.createWeb3Provider(config.KLAYTN_RPC_URL);
         const dependencies = await getDefaultAppDependenciesAsync(provider, config);
         await getAppAsync(dependencies, config);
     })().catch(err => logger.error(err));

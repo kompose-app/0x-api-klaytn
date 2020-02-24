@@ -32,7 +32,7 @@ process.on('unhandledRejection', err => {
 
 if (require.main === module) {
     (async () => {
-        const provider = providerUtils.createWeb3Provider(defaultConfig.ETHEREUM_RPC_URL);
+        const provider = providerUtils.createWeb3Provider(defaultConfig.KLAYTN_RPC_URL);
         const dependencies = await getDefaultAppDependenciesAsync(provider, defaultConfig);
         await runHttpServiceAsync(dependencies, defaultConfig);
     })().catch(error => logger.error(error));
@@ -49,7 +49,7 @@ async function runHttpServiceAsync(
     app.use(bodyParser.json());
     app.get('/', rootHandler);
     const server = app.listen(config.HTTP_PORT, () => {
-        logger.info(`API (HTTP) listening on port ${config.HTTP_PORT}!`);
+        logger.info(`Staking API (HTTP) for Klaytn listening on port ${config.HTTP_PORT}!`);
     });
 
     // staking http service

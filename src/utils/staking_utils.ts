@@ -36,7 +36,7 @@ export const stakingUtils = {
             ending_block_timestamp,
             zrx_deposited,
             zrx_staked,
-            protocol_fees_generated_in_eth,
+            protocol_fees_generated_in_klay,
         } = rawEpoch;
         let epochEnd: TransactionDate | undefined;
         if (ending_transaction_hash && ending_block_number) {
@@ -56,7 +56,7 @@ export const stakingUtils = {
             epochEnd,
             zrxDeposited: Number(zrx_deposited || 0),
             zrxStaked: Number(zrx_staked || 0),
-            protocolFeesGeneratedInEth: Number(protocol_fees_generated_in_eth || 0),
+            protocolFeesGeneratedInKlay: Number(protocol_fees_generated_in_klay || 0),
         };
     },
     getPoolFromRaw: (rawPool: RawPool): Pool => {
@@ -99,7 +99,7 @@ export const stakingUtils = {
             operator_share,
             zrx_staked,
             share_of_stake,
-            total_protocol_fees_generated_in_eth,
+            total_protocol_fees_generated_in_klay,
             share_of_fees,
             number_of_fills,
             share_of_fills,
@@ -112,7 +112,7 @@ export const stakingUtils = {
             operatorShare: _.isNil(operator_share) ? undefined : Number(operator_share),
             approximateStakeRatio: approximate_stake_ratio ? Number(approximate_stake_ratio) : 0,
             makerAddresses: maker_addresses || [],
-            totalProtocolFeesGeneratedInEth: Number(total_protocol_fees_generated_in_eth || 0),
+            totalProtocolFeesGeneratedInKlay: Number(total_protocol_fees_generated_in_klay || 0),
             shareOfFees: Number(share_of_fees || 0),
             numberOfFills: Number(number_of_fills || 0),
             shareOfFills: Number(share_of_fills || 0),
@@ -126,9 +126,9 @@ export const stakingUtils = {
             epochId: Number(epochReward.epoch_id),
             epochStartTimestamp: epochReward.starting_block_timestamp,
             epochEndTimestamp: epochReward.ending_timestamp,
-            operatorRewardsPaidInEth: Number(epochReward.operator_reward || 0),
-            membersRewardsPaidInEth: Number(epochReward.members_reward || 0),
-            totalRewardsPaidInEth: Number(epochReward.total_reward || 0),
+            operatorRewardsPaidInKlay: Number(epochReward.operator_reward || 0),
+            membersRewardsPaidInKlay: Number(epochReward.members_reward || 0),
+            totalRewardsPaidInKlay: Number(epochReward.total_reward || 0),
         }));
     },
     getPoolProtocolFeesGeneratedFromRaw: (
@@ -136,12 +136,12 @@ export const stakingUtils = {
     ): PoolProtocolFeesGenerated => {
         const {
             pool_id,
-            seven_day_protocol_fees_generated_in_eth,
+            seven_day_protocol_fees_generated_in_klay,
             seven_day_number_of_fills,
         } = rawPoolProtocolFeesGenerated;
         return {
             poolId: pool_id,
-            sevenDayProtocolFeesGeneratedInEth: Number(seven_day_protocol_fees_generated_in_eth || 0),
+            sevenDayProtocolFeesGeneratedInKlay: Number(seven_day_protocol_fees_generated_in_klay || 0),
             sevenDayNumberOfFills: Number(seven_day_number_of_fills || 0),
         };
     },
@@ -173,7 +173,7 @@ export const stakingUtils = {
     ): AllTimeDelegatorPoolStats[] => {
         const poolData: AllTimeDelegatorPoolStats[] = rawDelegatorAllTimeStats.map(rawStats => ({
             poolId: rawStats.pool_id,
-            rewardsInEth: parseFloat(rawStats.reward) || 0,
+            rewardsInKlay: parseFloat(rawStats.reward) || 0,
         }));
 
         return poolData;
@@ -183,17 +183,17 @@ export const stakingUtils = {
         rawPoolsProtocolFeesGenerated?: RawPoolTotalProtocolFeesGenerated,
     ): AllTimePoolStats => {
         return {
-            operatorRewardsPaidInEth: Number(_.get(rawAllTimePoolRewards, 'operator_reward', 0)),
-            membersRewardsPaidInEth: Number(_.get(rawAllTimePoolRewards, 'members_reward', 0)),
-            totalRewardsPaidInEth: Number(_.get(rawAllTimePoolRewards, 'total_rewards', 0)),
-            protocolFeesGeneratedInEth: Number(_.get(rawPoolsProtocolFeesGenerated, 'total_protocol_fees', 0)),
+            operatorRewardsPaidInKlay: Number(_.get(rawAllTimePoolRewards, 'operator_reward', 0)),
+            membersRewardsPaidInKlay: Number(_.get(rawAllTimePoolRewards, 'members_reward', 0)),
+            totalRewardsPaidInKlay: Number(_.get(rawAllTimePoolRewards, 'total_rewards', 0)),
+            protocolFeesGeneratedInKlay: Number(_.get(rawPoolsProtocolFeesGenerated, 'total_protocol_fees', 0)),
             numberOfFills: Number(_.get(rawPoolsProtocolFeesGenerated, 'number_of_fills', 0)),
         };
     },
     getAllTimeStakingStatsFromRaw: (rawAllTimeAllTimeStats: RawAllTimeStakingStats): AllTimeStakingStats => {
         const { total_rewards_paid } = rawAllTimeAllTimeStats;
         return {
-            totalRewardsPaidInEth: Number(total_rewards_paid || 0),
+            totalRewardsPaidInKlay: Number(total_rewards_paid || 0),
         };
     },
 };

@@ -19,7 +19,7 @@ export class OrderWatcherService {
         const signedOrders = signedOrderModels.map(orderUtils.deserializeOrder);
         // Sync the order watching service state locally
         const { ordersInfos } = await this._meshClient.getOrdersAsync();
-        // TODO(dekz): Mesh can reject due to InternalError or EthRPCRequestFailed.
+        // TODO(dekz): Mesh can reject due to InternalError or KlayRPCRequestFailed.
         // in the future we can attempt to retry these a few times. Ultimately if we
         // cannot validate the order we cannot keep the order around
         // Validate the local state and notify the order watcher of any missed orders

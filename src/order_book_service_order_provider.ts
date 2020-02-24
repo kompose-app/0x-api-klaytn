@@ -1,4 +1,4 @@
-import { AssetPairsItem, BaseOrderProvider, OrderStore, SignedOrder } from '@0x/asset-swapper';
+import { AssetPairsItem, BaseOrderProvider, OrderStore, SignedOrder } from '@0x-klaytn/asset-swapper';
 
 import { FIRST_PAGE } from './constants';
 import { OrderBookService } from './services/orderbook_service';

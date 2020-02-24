@@ -7,7 +7,7 @@ export const currentEpochQuery = `
     )
     , protocol_fees AS (
         SELECT
-            SUM(protocol_fee_paid) / 1e18::NUMERIC AS protocol_fees_generated_in_eth
+            SUM(protocol_fee_paid) / 1e18::NUMERIC AS protocol_fees_generated_in_klay
         FROM events.fill_events fe
         JOIN staking.current_epoch ce
             ON fe.block_number > ce.starting_block_number
@@ -25,7 +25,7 @@ export const currentEpochQuery = `
         ce.*
         , zd.zrx_deposited
         , zs.zrx_staked
-        , pf.protocol_fees_generated_in_eth
+        , pf.protocol_fees_generated_in_klay
     FROM staking.current_epoch ce
     CROSS JOIN zrx_deposited zd
     CROSS JOIN zrx_staked zs
@@ -76,7 +76,7 @@ export const poolSevenDayProtocolFeesGeneratedQuery = `
     )
     SELECT
         p.pool_id
-        , COALESCE(f.protocol_fees, 0) AS seven_day_protocol_fees_generated_in_eth
+        , COALESCE(f.protocol_fees, 0) AS seven_day_protocol_fees_generated_in_klay
         , COALESCE(f.number_of_fills,0) AS seven_day_number_of_fills
     FROM events.staking_pool_created_events p
     LEFT JOIN pool_7d_fills f ON f.pool_id = p.pool_id
@@ -101,7 +101,7 @@ export const sevenDayProtocolFeesGeneratedQuery = `
     )
     SELECT
         p.pool_id
-        , COALESCE(f.protocol_fees, 0) AS seven_day_protocol_fees_generated_in_eth
+        , COALESCE(f.protocol_fees, 0) AS seven_day_protocol_fees_generated_in_klay
         , COALESCE(f.number_of_fills,0) AS seven_day_number_of_fills
     FROM events.staking_pool_created_events p
     LEFT JOIN pool_7d_fills f ON f.pool_id = p.pool_id;
@@ -208,7 +208,7 @@ export const currentEpochPoolsStatsQuery = `
         , cebs.zrx_delegated AS zrx_staked
         , ts.total_staked
         , cebs.zrx_delegated / ts.total_staked AS share_of_stake
-        , fbp.protocol_fees AS total_protocol_fees_generated_in_eth
+        , fbp.protocol_fees AS total_protocol_fees_generated_in_klay
         , fbp.num_fills AS number_of_fills
         , fbp.protocol_fees / tf.total_protocol_fees AS share_of_fees
         , fbp.num_fills::FLOAT / tf.total_fills::FLOAT AS share_of_fills
@@ -264,7 +264,7 @@ export const currentEpochPoolStatsQuery = `
             , cebs.zrx_delegated AS zrx_staked
             , ts.total_staked
             , cebs.zrx_delegated / ts.total_staked AS share_of_stake
-            , fbp.protocol_fees AS total_protocol_fees_generated_in_eth
+            , fbp.protocol_fees AS total_protocol_fees_generated_in_klay
             , fbp.num_fills AS number_of_fills
             , fbp.protocol_fees / tf.total_protocol_fees AS share_of_fees
             , fbp.num_fills::FLOAT / tf.total_fills::FLOAT AS share_of_fills
@@ -336,7 +336,7 @@ export const nextEpochPoolsStatsQuery = `
             , cs.zrx_staked
             , ts.total_staked
             , cs.zrx_staked / ts.total_staked AS share_of_stake
-            , 0.00 AS total_protocol_fees_generated_in_eth
+            , 0.00 AS total_protocol_fees_generated_in_klay
             , 0 AS number_of_fills
             , (cs.zrx_staked / ts.total_staked)
                     / (fbp.protocol_fees / tr.total_protocol_fees)
@@ -405,7 +405,7 @@ export const nextEpochPoolStatsQuery = `
             , cs.zrx_staked
             , ts.total_staked
             , cs.zrx_staked / ts.total_staked AS share_of_stake
-            , 0.00 AS total_protocol_fees_generated_in_eth
+            , 0.00 AS total_protocol_fees_generated_in_klay
             , 0 AS number_of_fills
             , (cs.zrx_staked / ts.total_staked)
                     / (fbp.protocol_fees / tr.total_protocol_fees)

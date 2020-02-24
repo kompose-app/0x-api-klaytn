@@ -1,6 +1,6 @@
-import { schemas } from '@0x/json-schemas';
+import { schemas } from '@0x-klaytn/json-schemas';
 import { WSClient } from '@0x/mesh-rpc-client';
-import { assetDataUtils } from '@0x/order-utils';
+import { assetDataUtils } from '@0x-klaytn/order-utils';
 import {
     APIOrder,
     AssetProxyId,

@@ -1,4 +1,4 @@
-import { AddedRemovedOrders, APIOrder, OrderSet, OrderStore } from '@0x/asset-swapper';
+import { AddedRemovedOrders, APIOrder, OrderSet, OrderStore } from '@0x-klaytn/asset-swapper';
 
 import { FIRST_PAGE } from '../constants';
 import { OrderBookService } from '../services/orderbook_service';

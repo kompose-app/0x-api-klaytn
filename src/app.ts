@@ -1,4 +1,4 @@
-import { Orderbook, SupportedProvider } from '@0x/asset-swapper';
+import { Orderbook, SupportedProvider } from '@0x-klaytn/asset-swapper';
 import { WSClient } from '@0x/mesh-rpc-client';
 import * as express from 'express';
 import { Connection } from 'typeorm';
@@ -27,7 +27,7 @@ export interface AppDependencies {
 
 /**
  * Instantiates dependencies required to run the app. Uses default settings based on config
- * @param config should contain a URI for mesh to listen to, and the ethereum RPC URL
+ * @param config should contain a URI for mesh to listen to, and the Klaytn RPC URL
  */
 export async function getDefaultAppDependenciesAsync(
     provider: SupportedProvider,
@@ -78,7 +78,7 @@ export async function getDefaultAppDependenciesAsync(
  */
 export async function getAppAsync(
     dependencies: AppDependencies,
-    config: { HTTP_PORT: string; ETHEREUM_RPC_URL: string },
+    config: { HTTP_PORT: string; KLAYTN_RPC_URL: string },
 ): Promise<Express.Application> {
     const app = express();
     await runHttpServiceAsync(dependencies, config, app);

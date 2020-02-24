@@ -1,4 +1,4 @@
-import { ADDRESS_HEX_LENGTH, ETH_SYMBOL } from '../constants';
+import { ADDRESS_HEX_LENGTH, KLAY_SYMBOL } from '../constants';
 import { TokenMetadataAndChainAddresses, TokenMetadatasForChains } from '../token_metadatas_for_networks';
 import { ChainId, TokenMetadata } from '../types';
 
@@ -15,7 +15,7 @@ export function getTokenMetadataIfExists(tokenAddressOrSymbol: string, chainId: 
             tm => tm.tokenAddresses[chainId].toLowerCase() === tokenAddressOrSymbol.toLowerCase(),
         );
     } else {
-        const normalizedSymbol = (isETHSymbol(tokenAddressOrSymbol) ? 'WETH' : tokenAddressOrSymbol).toLowerCase();
+        const normalizedSymbol = (isKLAYSymbol(tokenAddressOrSymbol) ? 'WKLAY' : tokenAddressOrSymbol).toLowerCase();
         entry = TokenMetadatasForChains.find(tm => tm.symbol.toLowerCase() === normalizedSymbol);
     }
 
@@ -29,12 +29,12 @@ export function getTokenMetadataIfExists(tokenAddressOrSymbol: string, chainId: 
 }
 
 /**
- *  Returns true if this symbol represents ETH
+ *  Returns true if this symbol represents KLAY
  *
  * @param tokenSymbol the symbol of the token
  */
-export function isETHSymbol(tokenSymbol: string): boolean {
-    return tokenSymbol.toLowerCase() === ETH_SYMBOL.toLowerCase();
+export function isKLAYSymbol(tokenSymbol: string): boolean {
+    return tokenSymbol.toLowerCase() === KLAY_SYMBOL.toLowerCase();
 }
 
 /**
@@ -60,9 +60,10 @@ export function findTokenAddress(symbolOrAddress: string, chainId: ChainId): str
  * @param symbolOrAddress the uppercase symbol of the token (ex. `REP`) or the address of the contract
  * @param chainId the Network where the address should be hosted on.
  */
-export function findTokenDecimalsIfExists(symbolOrAddress: string, chainId: ChainId): number | undefined {
+export function findTokenDecimalsIfExists(symbolOrAddress: string, chainId: ChainId): number {
     const entry = getTokenMetadataIfExists(symbolOrAddress, chainId);
     if (entry) {
         return entry.decimals;
     }
+    return -1;
 }
