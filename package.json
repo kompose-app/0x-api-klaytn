@@ -63,7 +63,7 @@
         "@0x-klaytn/order-utils": "^10.3.0",
         "@0x/connect": "^6.0.4",
         "@0x/mesh-rpc-client": "^9.0.1",
-        "axios": "^0.19.0",
+        "axios": "^0.21.1",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
         "debug": "^4.1.1",
